@@ -4,8 +4,11 @@ import com.example.facebook_with_retrofit_mvvm.model.Post;
 
 import java.util.List;
 
+
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Postsclient {
@@ -18,6 +21,7 @@ public class Postsclient {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
+               .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
        postsInterface=  retrofit.create(PostsInterface.class);
     }
@@ -29,7 +33,7 @@ public class Postsclient {
         }else {return INstance ;}
 
     }
-    public Call<List<Post>>getPosts (){
+    public Observable<List<Post>> getPosts (){
         return postsInterface.getPosts();
     }
 }
